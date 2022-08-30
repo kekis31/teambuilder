@@ -2,8 +2,9 @@ from operator import truediv
 from os import dup
 import random
 import keyboard
+import os
 
-scoresraw = open("C:/Users/s2000925/Documents/Championship/teamgenerator/scores.txt", "r")
+scoresraw = open(f"{os.getcwd()}/scores.txt", "r")
 
 def print_team(team):
     teamtotalscore = get_team_score(team)
@@ -28,15 +29,19 @@ def get_score_diff(teams):
     scores = [get_team_score(teams[0]),get_team_score(teams[1]),get_team_score(teams[2]),get_team_score(teams[3])]
     return max(scores) - min(scores)
 
-def check_for_duplicates(allparts, bestparts):
+def check_for_duplicates(team, allparts, bestparts):
     allparts.append(bestparts)
 
-    for aps in allparts:
-        sorted_aps = sorted(aps)
-        for y in allparts:
-            print(aps[y])
+    for a in allparts:
+        diffinpart = 0
+        for p in range(len(a)):
+            if a[p][0] != team[p][0]:
+                diffinpart += 1
+        if diffinpart == 0:
+            return True
 
-    return True
+
+    return False
 
     
 
@@ -86,8 +91,7 @@ while True:
                 thisbestparts = tempparts
                 alternatives = 0
                 alternativeparts.clear()
-            elif (thisscorediff == thisbestscore and check_for_duplicates(alternativeparts, thisbestparts)):
-
+            elif (thisscorediff == thisbestscore and not check_for_duplicates(tempparts, alternativeparts, thisbestparts)):
                 alternatives += 1
                 alternativeparts.append(tempparts)
 
