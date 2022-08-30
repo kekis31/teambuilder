@@ -1,0 +1,16 @@
+Luxu,4709,0
+Tiitus,4354,3977
+Paavo,5244,2920
+kekis,3504,2230
+Fransu,2825,0
+Roni,0,2812
+Marius,0,2405
+Kauko,0,2291
+Hugo,2050,1640
+Wisam,2000,894
+Iiro,1575,1308
+Elias,0,1430
+Kata,1383,0
+Otto,0,1200
+Lily,1000,0
+Jun,0,553
