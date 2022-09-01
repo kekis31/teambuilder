@@ -6,10 +6,21 @@ import os
 
 scoresraw = open(f"{os.getcwd()}/scores.txt", "r")
 
+alternativeteam_scoretreshhold = 15
+
 def print_team(team):
     teamtotalscore = get_team_score(team)
 
-    return f'{team[0][0]}, {team[1][0]}, {team[2][0]}, {teamtotalscore}'
+    return f'{team[0][0]}, {team[1][0]}, {team[2][0]}, (Score: {teamtotalscore})'
+
+def print_not_participating(parts):
+    np = f''
+
+    for p in range(len(parts)):
+        if p > 11:
+            np += f'{parts[p][0]}, '
+    
+    return np
 
 def get_team_score(team):
     return team[0][1] + team[1][1] + team[2][1]
@@ -66,6 +77,9 @@ for x in s:
     
     participants.append([name,averagescore])
 
+participants_sorted = sorted(participants, key=lambda p : p[1],reverse=True)
+participants = participants_sorted
+
 teams = generate_teams(participants)
 scorediff = get_score_diff(teams)
 
@@ -79,6 +93,8 @@ while True:
     thisbestscore = scorediff
     thisbestparts = tempparts
 
+    improvements = 0
+
     for p in range(len(tempparts)):
         for s in range(len(tempparts)):
             swap(tempparts,p,s)
@@ -91,7 +107,8 @@ while True:
                 thisbestparts = tempparts
                 alternatives = 0
                 alternativeparts.clear()
-            elif (thisscorediff == thisbestscore and not check_for_duplicates(tempparts, alternativeparts, thisbestparts)):
+                improvements += 1
+            elif (thisscorediff <= thisbestscore + alternativeteam_scoretreshhold and not check_for_duplicates(tempparts, alternativeparts, thisbestparts)):
                 alternatives += 1
                 alternativeparts.append(tempparts)
 
@@ -106,7 +123,7 @@ while True:
         break
 
 
-    print(f'Generating team... Diff: ({scorediff})')
+    print(f'Teams generated. {improvements} optimization(s) found. Diff: ({scorediff})')
 
 bestteams = generate_teams(participants)
 
@@ -114,7 +131,7 @@ for f in bestteams:
     f.sort()
 
 
-print(f'\n{print_team(bestteams[0])}, \n{print_team(bestteams[1])}, \n{print_team(bestteams[2])}, \n{print_team(bestteams[3])}\nScore diff ({scorediff})')
+print(f'\nBEST TEAMS:\nTeam 1: {print_team(bestteams[0])} \nTeam 2: {print_team(bestteams[1])} \nTeam 3: {print_team(bestteams[2])} \nTeam 4: {print_team(bestteams[3])}\nScore diff ({scorediff})')
 print(f'')
 
 al = 0
@@ -138,4 +155,4 @@ if (alternatives > 0):
         al += 1
 
         print(f'ALTERNATIVE {al}')
-        print(f'{print_team(altbestteams[0])}, \n{print_team(altbestteams[1])}, \n{print_team(altbestteams[2])}, \n{print_team(altbestteams[3])}\n')
+        print(f'Team 1: {print_team(altbestteams[0])} \nTeam 2: {print_team(altbestteams[1])} \nTeam 3: {print_team(altbestteams[2])} \nTeam 4: {print_team(altbestteams[3])}\nScore diff ({altscorediff})\n')
