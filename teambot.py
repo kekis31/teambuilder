@@ -1,7 +1,7 @@
 from operator import truediv
 from os import dup
 import random
-import keyboard
+from teamvisualizer import Visualizer
 import os
 
 scoresraw = open(f"{os.getcwd()}/scores.txt", "r")
@@ -133,6 +133,11 @@ for f in bestteams:
 
 print(f'\nBEST TEAMS:\nTeam 1: {print_team(bestteams[0])} \nTeam 2: {print_team(bestteams[1])} \nTeam 3: {print_team(bestteams[2])} \nTeam 4: {print_team(bestteams[3])}\nScore diff ({scorediff})')
 print(f'')
+
+print(participants)
+
+v = Visualizer()
+v.generate_image(participants)
 
 al = 0
 if (alternatives > 0):
