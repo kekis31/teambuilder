@@ -4,7 +4,7 @@ import random
 from teamvisualizer import Visualizer
 import os
 
-scoresraw = open(f"{os.getcwd()}/scores.txt", "r")
+scoresraw = open(f"C:/Users/s2000925/Documents/Unity/Brackeys 2022/teambuilder/scores.txt", "r")
 
 alternativeteam_scoretreshhold = 15
 
@@ -23,7 +23,7 @@ def print_not_participating(parts):
     return np
 
 def get_team_score(team):
-    return team[0][1] + team[1][1] + team[2][1]
+    return round((team[0][1] + team[1][1] + team[2][1]) / 3)
 
 def swap(parts, p1, p2):
     parts[p1], parts[p2] = parts[p2], parts[p1]
@@ -70,8 +70,9 @@ for x in s:
     season1score = int(x[1])
     season2score = int(x[2])
 
-    averagescore = (season1score + season2score) / 2
-    
+    averagescore = season2score - ((season2score - season1score) / 4)
+    #averagescore = (season1score + season2score) / 2
+
     if (season1score == 0 or season2score == 0):
         averagescore = max(season1score, season2score)
     
@@ -134,10 +135,8 @@ for f in bestteams:
 print(f'\nBEST TEAMS:\nTeam 1: {print_team(bestteams[0])} \nTeam 2: {print_team(bestteams[1])} \nTeam 3: {print_team(bestteams[2])} \nTeam 4: {print_team(bestteams[3])}\nScore diff ({scorediff})')
 print(f'')
 
-print(participants)
-
-v = Visualizer()
-v.generate_image(participants)
+#v = Visualizer()
+#v.generate_image(participants)
 
 al = 0
 if (alternatives > 0):
